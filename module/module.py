@@ -94,7 +94,8 @@ class Npcd_broker(BaseModule):
         if time.time() - self.last_need_data_send > 60:
             print "I ask the broker for instance id data:", c_id
             msg = Message(id=0, type='NeedData', data={'full_instance_id': c_id}, source=self.get_name())
-            self.from_q.put(msg)
+            if self.from_q:
+                self.from_q.put(msg)
             self.last_need_data_send = time.time()
         return
 
